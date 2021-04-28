@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,29 +41,38 @@ namespace WcfService
                 IssuerSigningToken = new X509SecurityToken(_signingCert)
             };
 
-            SecurityToken validatedToken;
-            var handler = new JwtSecurityTokenHandler();
-            var principal = handler.ValidateToken(jwt, parameters, out validatedToken);
-            
-            var ci = new ReadOnlyCollection<ClaimsIdentity>(new List<ClaimsIdentity> { principal.Identities.First() });
-
-            if (_requiredScopes.Any())
+            ReadOnlyCollection<ClaimsIdentity> ci = null;
+            try
             {
-                bool found = false;
+                SecurityToken validatedToken;
+                var handler = new JwtSecurityTokenHandler();
+                var principal = handler.ValidateToken(jwt, parameters, out validatedToken);
+            
+                ci = new ReadOnlyCollection<ClaimsIdentity>(new List<ClaimsIdentity> { principal.Identities.First() });
 
-                foreach (var scope in _requiredScopes)
+                if (_requiredScopes.Any())
                 {
-                    if (principal.HasClaim("scope", scope))
+                    bool found = false;
+
+                    foreach (var scope in _requiredScopes)
                     {
-                        found = true;
-                        break;
+                        if (principal.HasClaim("scope", scope))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found == false)
+                    {
+                        throw new SecurityTokenValidationException("Insufficient Scope");
                     }
                 }
-
-                if (found == false)
-                {
-                    throw new SecurityTokenValidationException("Insufficient Scope");
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("øv");
+                throw;
             }
 
             return ci;

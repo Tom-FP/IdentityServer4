@@ -29,7 +29,7 @@ namespace IdentityServer4.Configuration
         /// <value>
         /// The JWT typ value.
         /// </value>
-        public string AccessTokenJwtType { get; set; } = "at+jwt";
+        public string AccessTokenJwtType { get; set; } = "JWT";//"at+jwt";
 
         /// <summary>
         /// Emits an aud claim with the format issuer/resources. That's needed for some older access token validation plumbing. Defaults to false.

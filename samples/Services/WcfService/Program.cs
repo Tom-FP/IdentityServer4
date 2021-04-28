@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IdentityModel.Configuration;
 using System.IdentityModel.Tokens;
 using System.ServiceModel;
@@ -36,7 +36,7 @@ namespace WcfService
             var identityConfiguration = new IdentityConfiguration();
 
             identityConfiguration.SecurityTokenHandlers.Clear();
-            identityConfiguration.SecurityTokenHandlers.Add(new IdentityServerWrappedJwtHandler("https://localhost:5001", "write"));
+            identityConfiguration.SecurityTokenHandlers.Add(new IdentityServerWrappedJwtHandler("https://localhost:5001", "resource1.scope1"));
             identityConfiguration.ClaimsAuthorizationManager = new RequireAuthenticationAuthorizationManager();
 
             return identityConfiguration;

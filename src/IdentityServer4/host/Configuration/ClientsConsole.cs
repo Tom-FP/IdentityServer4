@@ -21,7 +21,7 @@ namespace IdentityServerHost.Configuration
                 {
                     ClientId = "client",
                     ClientSecrets = { new Secret("secret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = {"GrantTypes.ClientCredentials", "GrantType.ResourceOwnerPassword", "password" },
                     AllowedScopes =
                     {
                         "resource1.scope1", "resource2.scope1", IdentityServerConstants.LocalApi.ScopeName

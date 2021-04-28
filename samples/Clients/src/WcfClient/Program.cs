@@ -30,6 +30,8 @@ namespace WcfClient
         static void Main(string[] args)
         {
             var jwt = GetJwt();
+            Console.WriteLine("Token created: " + jwt);
+
             var xmlToken = WrapJwt(jwt);
 
             var binding = new WS2007FederationHttpBinding(WSFederationHttpSecurityMode.TransportWithMessageCredential);
@@ -79,7 +81,7 @@ namespace WcfClient
             var oauth2Client = new TokenClient(
                 Constants.TokenEndpoint,
                 "client", //"ro.client",
-                "secret".ToSha256());
+                "secret"); //.ToSha256());
 
             var tokenResponse =
                 //oauth2Client.RequestResourceOwnerPasswordAsync("bob", "bob", "write").Result;
