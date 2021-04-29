@@ -29,6 +29,8 @@ namespace WcfClient
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("WCfClient Welcome");
+
             var jwt = GetJwt();
             Console.WriteLine("Token created: " + jwt);
 
@@ -46,6 +48,8 @@ namespace WcfClient
             var channel = factory.CreateChannelWithIssuedToken(xmlToken);
             
             Console.WriteLine(channel.Ping());
+
+            Console.WriteLine("Done!");
         }
 
         static GenericXmlSecurityToken WrapJwt(string jwt)
@@ -81,26 +85,24 @@ namespace WcfClient
             var oauth2Client = new TokenClient(
                 Constants.TokenEndpoint,
                 "client", //"ro.client",
-                "secret"); //.ToSha256());
+                "secret");
 
             var tokenResponse =
                 //oauth2Client.RequestResourceOwnerPasswordAsync("bob", "bob", "write").Result;
-                oauth2Client.RequestResourceOwnerPasswordAsync("bob", "bob", "resource1.scope1").Result;
+                oauth2Client.RequestResourceOwnerPasswordAsync("bob", "bob", "resource2.scope1").Result;
+
+            if (tokenResponse.IsHttpError)
+            {
+                Console.Error.WriteLine("HTTP Statuscode: " + tokenResponse.HttpErrorStatusCode );
+                Console.Error.WriteLine(tokenResponse.HttpErrorReason);
+            }
+            if (tokenResponse.IsError)
+            {
+                Console.Error.WriteLine(tokenResponse.Error);
+                if (tokenResponse.Json != null) Console.Error.WriteLine(tokenResponse.Json.ToString());
+            }
 
             return tokenResponse.AccessToken;
         }
-
-        //public static string Sha256(this string input)
-        //{
-        //    if (input == null) return string.Empty;
-
-        //    using (var sha = SHA256.Create())
-        //    {
-        //        var bytes = Encoding.UTF8.GetBytes(input);
-        //        var hash = sha.ComputeHash(bytes);
-
-        //        return Convert.ToBase64String(hash);
-        //    }
-        //}
     }
 }

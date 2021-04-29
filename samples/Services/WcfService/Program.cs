@@ -36,7 +36,7 @@ namespace WcfService
             var identityConfiguration = new IdentityConfiguration();
 
             identityConfiguration.SecurityTokenHandlers.Clear();
-            identityConfiguration.SecurityTokenHandlers.Add(new IdentityServerWrappedJwtHandler("https://localhost:5001", "resource1.scope1"));
+            identityConfiguration.SecurityTokenHandlers.Add(new IdentityServerWrappedJwtHandler("https://localhost:5001", "resource2.scope1"));
             identityConfiguration.ClaimsAuthorizationManager = new RequireAuthenticationAuthorizationManager();
 
             return identityConfiguration;

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+using System;
+using System.Security.Claims;
 using System.ServiceModel;
 using System.Text;
 
@@ -22,6 +23,11 @@ namespace WcfService
                 sb.AppendFormat("{0} :: {1}\n", claim.Type, claim.Value);
             }
 
+            Claim user = ClaimsPrincipal.Current.FindFirst("name");
+            if (user != null)
+            {                
+                Console.WriteLine("current user: " + user.Value );
+            }
             return sb.ToString();
         }
     }
